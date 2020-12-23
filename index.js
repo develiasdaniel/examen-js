@@ -109,3 +109,24 @@ app.post("/cart/buy", (req, res) => {
     res.send("No hay productos en el carrito");
   }
 });
+
+app.get("/orders", (req, res) => {
+  const sql = `select R.name,  R.category,  R.price, O.quantity, R.price * O.quantity as amount,O.ticket
+                from repository R
+                inner join orders O on r.id = O.id_product; `;
+  connection.query(sql, (error, results) => {
+    if (error) throw error;
+    results.length > 0 ? res.json(results) : res.send("Sin resultados");
+  });
+});
+
+app.get("/orders/:ticket", (req, res) => {
+  const { ticket } = req.params;
+  const sql = `select R.name,  R.category,  R.price, O.quantity, R.price * O.quantity as amount,O.ticket
+                from repository R
+                inner join orders O on r.id = O.id_product  where ticket=${ticket}`;
+  connection.query(sql, (error, results) => {
+    if (error) throw error;
+    results.length > 0 ? res.json(results) : res.send("Sin resultados");
+  });
+});

@@ -1,5 +1,6 @@
 create database store;
 use store;
+/*Esto puede ser necesario en algunos casos*/
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 flush privileges;
 
@@ -44,3 +45,6 @@ INSERT INTO orders (id_product, ticket, quantity) VALUES (2,1,5);
 select * from orders;
 select * from repository;
 select max(ticket) from orders;
+select R.name,  R.category,  R.price, O.quantity, R.price * O.quantity as amount,O.ticket
+from repository R
+inner join orders O on r.id = O.id_product; 
